@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitcoin-price
+  namespace: bitcoin-price
+  labels:
+    app: bitcoin-price
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: bitcoin-price
+      labels:
+        app: bitcoin-price
+    spec:
+      containers:
+      - name: bitcoin-price
+        image: dragosregistry.azurecr.io/bitcoin-price:1.0
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: acr-secret
+  selector:
+    matchLabels:
+      app: bitcoin-price
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitcoin-price
+  namespace: bitcoin-price
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: bitcoin-price

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest-api
+  namespace: rest-api
+  labels:
+    app: rest-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: rest-api
+      labels:
+        app: rest-api
+    spec:
+      containers:
+      - name: rest-api
+        image: dragosregistry.azurecr.io/rest-api:1.0
+        ports:
+          - containerPort: 80
+      imagePullSecrets:
+      - name: acr-secret
+  selector:
+    matchLabels:
+      app: rest-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-api
+  namespace: rest-api
+spec:
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+  selector:
+    app: rest-api

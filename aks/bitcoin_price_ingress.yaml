@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: bitcoin-price-ingress
+  namespace: bitcoin-price
+spec:
+  rules:
+    - host: bitcoin-price.test.ogfg.link
+      http:
+        paths:
+          - backend:
+              serviceName: bitcoin-price
+              servicePort: 80
+            path: /

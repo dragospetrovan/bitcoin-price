@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bitcoin Price</title>
+    <script>
+
+       window.addEventListener('load', setup);
+
+      function setup() {
+        function update() {
+          getData().then(data => {
+            const { last } = data;
+            const span = document.getElementById('last');
+            span.innerHTML = last;
+                   var number = "123";
+        document.getElementById("myText").innerHTML = number;
+
+          });
+        }
+        
+        async function getData() {
+          const response = await fetch('https://blockchain.info/ticker');
+          const json = await response.json();
+          return json.USD;
+        }
+        
+        update();
+        setInterval(update, 1000);
+      }
+ 
+  </script>
+  </head>
+  <body>
+    <p>The price of Bitcoin in USD is <span id="last">loading...</span></p>
+    <p>The average price of Bitcoin in USD in the last 10 minutes is : {{ passed_bitcoin_10min_average_price }}</p>
+  </body>
+</html>
